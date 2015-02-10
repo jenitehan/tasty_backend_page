@@ -26,17 +26,19 @@ function tasty_backend_page_install() {
     }
     
     // Insert default pre-defined RDF mapping into the database.
-    $rdf_mappings = array(
-      array(
-        'type' => 'node',
-        'bundle' => 'page',
-        'mapping' => array(
-          'rdftype' => array('foaf:Document'),
+    if (module_exists('rdf')) {
+      $rdf_mappings = array(
+        array(
+          'type' => 'node',
+          'bundle' => 'page',
+          'mapping' => array(
+            'rdftype' => array('foaf:Document'),
+          ),
         ),
-      ),
-    );
-    foreach ($rdf_mappings as $rdf_mapping) {
-      rdf_mapping_save($rdf_mapping);
+      );
+      foreach ($rdf_mappings as $rdf_mapping) {
+        rdf_mapping_save($rdf_mapping);
+      }
     }
   
     // Default "Basic page" to not be promoted and have comments disabled.
