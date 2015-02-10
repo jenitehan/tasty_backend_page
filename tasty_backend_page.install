@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function tasty_backend_page_install() {
+  
+  // Create Basic Page content type if it doesn't exist.
+  if (!node_type_load('page')) {
+    $types = array(
+      array(
+        'type' => 'page',
+        'name' => st('Basic page'),
+        'base' => 'node_content',
+        'description' => st("Use <em>basic pages</em> for your static content, such as an 'About us' page."),
+        'custom' => 1,
+        'modified' => 1,
+        'locked' => 0,
+      ),
+    );
+  
+    foreach ($types as $type) {
+      $type = node_type_set_defaults($type);
+      node_type_save($type);
+      node_add_body_field($type);
+    }
+    
+    // Insert default pre-defined RDF mapping into the database.
+    $rdf_mappings = array(
+      array(
+        'type' => 'node',
+        'bundle' => 'page',
+        'mapping' => array(
+          'rdftype' => array('foaf:Document'),
+        ),
+      ),
+    );
+    foreach ($rdf_mappings as $rdf_mapping) {
+      rdf_mapping_save($rdf_mapping);
+    }
+  
+    // Default "Basic page" to not be promoted and have comments disabled.
+    variable_set('node_options_page', array('status'));
+    variable_set('comment_page', COMMENT_NODE_HIDDEN);
+  
+    // Don't display date and author information for "Basic page" nodes by default.
+    variable_set('node_submitted_page', FALSE);
+    
+    // Disable the preview buttons on the basic page content type.
+    variable_set('node_preview_page', '0');
+  }
+  
+  // Add content admin permissions for Basic Page content type.
+  $content_role = user_role_load_by_name('content admin');
+  user_role_grant_permissions($content_role->rid, array(
+    'create page content',
+    'edit any page content',
+    'delete any page content',
+    'override page published option',
+    'view any unpublished page content',
+    )
+  );
+}
