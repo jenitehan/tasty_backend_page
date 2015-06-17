@@ -54,12 +54,5 @@ function tasty_backend_page_install() {
   
   // Add content admin permissions for Basic Page content type.
   $content_role = user_role_load_by_name('content admin');
-  user_role_grant_permissions($content_role->rid, array(
-    'create page content',
-    'edit any page content',
-    'delete any page content',
-    'override page published option',
-    'view any unpublished page content',
-    )
-  );
+  tasty_backend_base_default_permissions($content_role->rid, 'page', 1);
 }
