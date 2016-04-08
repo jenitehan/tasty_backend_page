@@ -8,7 +8,8 @@ This module adds a "Tasty Backend" Basic Page if one does not already exist. It 
 
 If you are using this module without the Tasty Backend Installation Profile you will find that it does not change the current Basic Page into a Tasty Backend one. Here are a few options on how to remedy this.
 
-* Change the machine name of the current content type to something other than **page**.
+* Change the machine name of the current content type to something other than **page** then install.
+* Delet the content type with teh machine name **page** then install
 * Change the machine name of the content type to be createdd to something other than **page**. To do this fork this project and replace the four instances of **'page'** with you new machine name, maybe **'tasty_page'**. You may also want to change the name of the content type to something other than **'Basic page'**. Just replace the one instance of **'Basic page'** with something else, maybe **'Tasty Backend page'**
 
 
